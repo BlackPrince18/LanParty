@@ -17,8 +17,8 @@ Queue* createQueue()
 
 void enQueue(Queue* q, int data)
 {
-    Node* temp;
-    temp = (Node*)malloc(sizeof(Node));
+    QNode* temp;
+    temp = (QNode*)malloc(sizeof(QNode));
     temp->data = data;
     temp->link = NULL;
 
@@ -36,7 +36,7 @@ void deQueue(Queue* q)
 {
     if(isEmptyQ(q)) printf("Lista este goala!\n");
 
-    Node* temp;
+    QNode* temp;
 
     temp = q->front;
     q->front = (q->front)->link;
@@ -45,7 +45,7 @@ void deQueue(Queue* q)
 
 void deleteQueue(Queue* q)
 {
-    Node* temp;
+    QNode* temp;
     if(isEmptyQ(q)) printf("Lista este goala!\n");
 
     while(!isEmptyQ(q))

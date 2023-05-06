@@ -1,17 +1,17 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-struct Elem
+struct Elem3
 {
     int data;
-    struct Elem* link;
+    struct Elem3* link;
 };
 
-typedef struct Elem Node;
+typedef struct Elem3 QNode;
 
 struct q
 {
-    Node *front, *rear;
+    QNode *front, *rear;
 };
 
 typedef struct q Queue;

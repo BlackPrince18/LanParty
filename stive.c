@@ -1,14 +1,14 @@
 #include "stive.h"
 
-int isEmptyS(Node* Top)
+int isEmptyS(SNode* Top)
 {
     return Top == NULL;
 }
 
-Node* push(Node* Top, int data)
+SNode* push(SNode* Top, int data)
 {
-    Node* temp;
-    temp = (Node*)malloc(sizeof(Node));
+    SNode* temp;
+    temp = (SNode*)malloc(sizeof(SNode));
     temp->data = data;
     temp->link = Top;
     Top = temp;
@@ -16,11 +16,11 @@ Node* push(Node* Top, int data)
     return Top;
 }
 
-Node* pop(Node* Top)
+SNode* pop(SNode* Top)
 {
-    if(isEmpty(Top)) printf("Stiva este goala!\n");
+    if(isEmptyS(Top)) printf("Stiva este goala!\n");
 
-    Node* temp;
+    SNode* temp;
     temp = Top;
     Top = Top->link;
     free(temp);
@@ -28,13 +28,13 @@ Node* pop(Node* Top)
     return Top;
 }
 
-void deleteStack(Node** Top)
+void deleteStack(SNode** Top)
 {
-    if(isEmpty(*Top)) printf("Stiva este goala!\n");
+    if(isEmptyS(*Top)) printf("Stiva este goala!\n");
 
-    Node* temp;
+    SNode* temp;
     
-    while(!isEmpty(*Top))
+    while(!isEmptyS(*Top))
     {
         temp = *Top;
         *Top = (*Top)->link;

@@ -1,20 +1,20 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-struct Elem
+struct Elem2
 {
     int data;
-    struct Elem* link;
+    struct Elem2* link;
 };
 
-typedef struct Elem Node;
+typedef struct Elem2 LNode;
 
-Node* create_first_node(Node* head, int value);
-Node* create_list(Node* head);
-void print_list(Node* head);
-void Linsert_at_end(Node* head, int data);
-Node* Linsert_at_beginning(Node* head, int data);
-void Linsert_at_pos(Node* head, int data, int position);
-Node* Ldelete_first(Node* head);
-Node *Ldelete_last (Node* head);
-void Ldelete_pos (Node **head, int position);
+LNode* create_first_node(LNode* head, int value);
+LNode* create_list(LNode* head);
+void print_list(LNode* head);
+void Linsert_at_end(LNode* head, int data);
+LNode* Linsert_at_beginning(LNode* head, int data);
+void Linsert_at_pos(LNode* head, int data, int position);
+LNode* Ldelete_first(LNode* head);
+LNode *Ldelete_last (LNode* head);
+void Ldelete_pos (LNode **head, int position);

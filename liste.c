@@ -1,17 +1,17 @@
 #include "liste.h"
 
-Node* create_first_node(Node* head, int data)
+LNode* create_first_node(LNode* head, int data)
 {
-    head = (Node*)malloc(sizeof(Node));
+    head = (LNode*)malloc(sizeof(LNode));
     head->data = data;
     head->link = NULL;
 
     return head;
 }
 
-Node* create_list(Node* head)
+LNode* create_list(LNode* head)
 {
-    Node *previous, *current;
+    LNode *previous, *current;
     int aux, nr, i;
     
     printf("How many elements? ");
@@ -24,7 +24,7 @@ Node* create_list(Node* head)
 
     for(i=1; i<nr; i++)
     {
-        current = (Node*)malloc(sizeof(Node));
+        current = (LNode*)malloc(sizeof(LNode));
         scanf("%d", &current->data);
         current->link = NULL;
         previous->link = current;
@@ -34,7 +34,7 @@ Node* create_list(Node* head)
     return head;
 }
 
-void print_list(Node* head)
+void print_list(LNode* head)
 {
     while(head != NULL)
     {
@@ -43,14 +43,14 @@ void print_list(Node* head)
     }
 }
 
-void Linsert_at_end(Node* head, int data)
+void Linsert_at_end(LNode* head, int data)
 {
-    Node* temp;
-    temp = (Node*)malloc(sizeof(Node));
+    LNode* temp;
+    temp = (LNode*)malloc(sizeof(LNode));
     temp->data = data;
     temp->link = NULL;
 
-    Node* index = head;
+    LNode* index = head;
     while(index->link != NULL)
     {
         index = index->link;
@@ -59,10 +59,10 @@ void Linsert_at_end(Node* head, int data)
     index->link = temp;
 }
 
-Node* Linsert_at_beginning(Node* head, int data)
+LNode* Linsert_at_beginning(LNode* head, int data)
 {
-    Node* temp;
-    temp = (Node*)malloc(sizeof(Node));
+    LNode* temp;
+    temp = (LNode*)malloc(sizeof(LNode));
     temp->data = data;
     temp->link = head;
     head = temp;
@@ -70,14 +70,14 @@ Node* Linsert_at_beginning(Node* head, int data)
     return head;
 }
 
-void Linsert_at_pos(Node* head, int data, int position)
+void Linsert_at_pos(LNode* head, int data, int position)
 {
-    Node* temp;
-    temp = (Node*)malloc(sizeof(Node));
+    LNode* temp;
+    temp = (LNode*)malloc(sizeof(LNode));
     temp->data = data;
     temp->link = NULL;
 
-    Node* index;
+    LNode* index;
     index = head;
 
     position--;
@@ -91,13 +91,13 @@ void Linsert_at_pos(Node* head, int data, int position)
     index->link = temp;
 }
 
-Node* Ldelete_first(Node *head)
+LNode* Ldelete_first(LNode *head)
 {
     if(head == NULL)
         printf("List is already empty.");
     else
     {
-        Node *temp = head;
+        LNode *temp = head;
         head = head->link;
         free(temp);
     }
@@ -105,7 +105,7 @@ Node* Ldelete_first(Node *head)
     return head;
 }
 
-Node *Ldelete_last (Node *head)
+LNode *Ldelete_last (LNode *head)
 {
     if(head == NULL)
     {
@@ -118,7 +118,7 @@ Node *Ldelete_last (Node *head)
     }
     else
     {
-        Node *index1, *index2;
+        LNode *index1, *index2;
         index1 = head;
 
         while(index1->link != NULL)
@@ -134,9 +134,9 @@ Node *Ldelete_last (Node *head)
     return head;
 }
 
-void Ldelete_pos (Node **head, int position)
+void Ldelete_pos (LNode **head, int position)
 {
-    Node *previous, *current;
+    LNode *previous, *current;
     previous = *head;
     current = *head;
 
