@@ -1,6 +1,6 @@
 #include "stive.h"
 
-int isEmpty(Node* Top)
+int isEmptyS(Node* Top)
 {
     return Top == NULL;
 }

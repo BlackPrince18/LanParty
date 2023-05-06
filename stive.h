@@ -10,6 +10,6 @@ struct Elem
 typedef struct Elem Node;
 
 Node* push(Node* Top, int data);
-int isEmpty(Node* Top);
+int isEmptyS(Node* Top);
 Node* pop(Node* Top);
 void deleteStack(Node** Top);
