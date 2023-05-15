@@ -1,16 +1,6 @@
 #include "cozi.h"
 #include "stive.h"
 #include "liste.h"
-#include <string.h>
-
-struct Player
-{
-    char *firstName;
-    char *lastName;
-    int points;
-};
-
-typedef struct Player Player;
 
 struct Team
 {
@@ -67,6 +57,14 @@ int main()
 
         i++;
     }
+
+    LTeam* head;
+    for(i=0; i<number_of_teams; i++)
+    {
+        head = add_at_beginning(head, teams[i].name, teams[i].players, teams[i].number_of_players);
+    }
+
+    free(teams);
 
     return 0;
 }

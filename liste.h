@@ -1,20 +1,25 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
-struct Elem2
+struct Player
 {
-    int data;
-    struct Elem2* link;
+    char *firstName;
+    char *lastName;
+    int points;
 };
 
-typedef struct Elem2 LNode;
+typedef struct Player Player;
 
-LNode* create_first_node(LNode* head, int value);
-LNode* create_list(LNode* head);
-void print_list(LNode* head);
-void Linsert_at_end(LNode* head, int data);
-LNode* Linsert_at_beginning(LNode* head, int data);
-void Linsert_at_pos(LNode* head, int data, int position);
-LNode* Ldelete_first(LNode* head);
-LNode *Ldelete_last (LNode* head);
-void Ldelete_pos (LNode **head, int position);
+struct LTeam
+{
+    char* name;
+    Player* players;
+    int number_of_players;
+    struct LTeam* link;
+};
+
+typedef struct LTeam LTeam;
+
+LTeam* create_first_node(LTeam* head, char* name, Player* players, int number_of_players);
+LTeam* add_at_beginning(LTeam* head, char* name, Player* players, int number_of_players);
