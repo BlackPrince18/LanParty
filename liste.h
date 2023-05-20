@@ -23,3 +23,4 @@ typedef struct LTeam LTeam;
 
 LTeam* create_first_node(LTeam* head, char* name, Player* players, int number_of_players);
 LTeam* add_at_beginning(LTeam* head, char* name, Player* players, int number_of_players);
+void del_pos (LTeam **head, int pos);

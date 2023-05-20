@@ -55,3 +55,32 @@ LTeam* add_at_beginning(LTeam* head, char* name, Player* players, int number_of_
     }
 }
 
+void del_pos (LTeam **head, int pos)
+{
+    LTeam *p, *c;
+    p = *head;
+    c = *head;
+
+    if(*head == NULL)
+    {
+        printf("Your list is empty.");
+    }
+    else if(pos == 1)
+    {
+        *head = c->link;
+        free(c);
+        c = NULL;
+    }
+    else
+    {
+        while(pos != 1)
+        {
+            p = c; 
+            c = c->link;
+            pos--;
+        }
+        p->link = c->link;
+        free(c);
+        c = NULL;
+    }
+}
