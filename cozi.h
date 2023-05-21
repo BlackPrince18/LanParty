@@ -1,9 +1,11 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 struct Elem3
 {
-    int data;
+    char *team1;
+    char *team2;
     struct Elem3* link;
 };
 
@@ -16,8 +18,6 @@ struct q
 
 typedef struct q Queue;
 
-Queue* createQueue();
-void enQueue(Queue* q, int data);
-int isEmptyQ(Queue* q);
-void deQueue(Queue* q);
-void deleteQueue(Queue* q);
+int isEmptyQ(Queue* queue);
+Queue* create_queue();
+void enQueue(Queue* queue, char *team1, char *team2);

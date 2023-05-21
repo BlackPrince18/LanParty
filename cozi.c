@@ -1,58 +1,35 @@
 #include "cozi.h"
 
-int isEmptyQ(Queue* q)
+int isEmptyQ(Queue* queue)
 {
-    return q->front == NULL;
+    return queue->front == NULL;
 }
 
-Queue* createQueue()
+Queue* create_queue()
 {
-    Queue* q;
-    q = (Queue*)malloc(sizeof(Queue));
-    if(q == NULL) return NULL;
-    q->front = q->rear = NULL;
+    Queue *queue = (Queue*)malloc(sizeof(Queue));
 
-    return q;
+    queue->front = NULL;
+    queue->rear = NULL;
+    
+    return queue;
 }
 
-void enQueue(Queue* q, int data)
+void enQueue(Queue* queue, char *team1, char *team2)
 {
-    QNode* temp;
-    temp = (QNode*)malloc(sizeof(QNode));
-    temp->data = data;
+    QNode* temp = (QNode*)malloc(sizeof(QNode));
+    temp->team1 = (char*)malloc(strlen(team1)+1);
+    strcpy(temp->team1, team1);
+    temp->team2 = (char*)malloc(strlen(team2)+1); 
+    strcpy(temp->team2, team2);
     temp->link = NULL;
 
-    if(q->rear == NULL) q->rear = temp;
+    if(queue->rear == NULL) queue->rear = temp;
     else
     {
-        (q->rear)->link = temp;
-        q->rear = temp;
+        (queue->rear)->link = temp;
+        queue->rear = temp;
     }
 
-    if(q->front == NULL) q->front = q->rear;
-}
-
-void deQueue(Queue* q)
-{
-    if(isEmptyQ(q)) printf("Lista este goala!\n");
-
-    QNode* temp;
-
-    temp = q->front;
-    q->front = (q->front)->link;
-    free(temp);
-}
-
-void deleteQueue(Queue* q)
-{
-    QNode* temp;
-    if(isEmptyQ(q)) printf("Lista este goala!\n");
-
-    while(!isEmptyQ(q))
-    {
-        temp = q->front;
-        q->front = (q->front)->link;
-        free(temp);
-    }
-    free(q);
+    if(isEmptyQ) queue->front = queue->rear;
 }
