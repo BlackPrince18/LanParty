@@ -2,8 +2,9 @@
 #include "stive.h"
 #include "liste.h"
 
-// am creat structura unei echipe
-struct Team
+#define MAX_LENGTH_STR 256 
+
+struct Team                                        // am creat structura unei echipe
 {
     char* name;
     Player* players;
@@ -37,7 +38,7 @@ int main()
 
     while(!feof(reading_file))                     // am inceput sa citesc din fisier fiecare informatie si sa o introduc in vector
     {
-        char buffer[256];
+        char buffer[MAX_LENGTH_STR];
 
         fscanf(reading_file, "%d ", &teams[i].number_of_players);
         fgets(buffer, 256, reading_file);
@@ -66,6 +67,20 @@ int main()
     }
 
     free(teams);                                   // dupa ce am completat toata lista, nu am mai avut nevoie de vectorul auxiliar
+
+    headcopy = head;
+    for(i=0; i<number_of_teams; i++)               // acest ciclu sterge caracterul '\n' de la finalul fiecarui nume de echipa
+    {
+        for(j=0; j<MAX_LENGTH_STR; j++)
+        {
+            if(headcopy->name[j] == '\n')
+            {
+                headcopy->name[j] = ' ';
+                break;
+            }
+        }
+        headcopy = headcopy->link;
+    }
 
     float *scores;                                 // am creat un vector pentru a retine scorul fiecarei echipe in ordinea in care erau trecute in lista
     scores = (float*)calloc(number_of_teams, sizeof(float));
@@ -127,9 +142,9 @@ int main()
     number_of_teams = number_of_teams - eliminate;  // am actualizat numarul de echipe
     free(scores);               
 
-    FILE* writing_file;                             // am creat un fisier pentru a scrie numele echipelor ramase
-    writing_file = fopen("r.txt", "w");
-    if(writing_file == NULL)
+    FILE* writing_file1;                             // am creat un fisier pentru a scrie numele echipelor ramase
+    writing_file1 = fopen("r.txt", "w");
+    if(writing_file1 == NULL)
     {
         printf("Fisierul nu a putut fi scris!\n");
         exit(1);
@@ -139,9 +154,12 @@ int main()
 
     for(i=0; i<number_of_teams; i++)
     {
-        fputs(headcopy->name, writing_file);
+        fputs(headcopy->name, writing_file1);
+        fputs("\n", writing_file1);
         headcopy = headcopy->link;
     }
+
+    fclose(writing_file1);
 
     Queue* matches;                                // am creat coada pentru meciuri
     matches = create_queue();
@@ -151,6 +169,22 @@ int main()
     {
         enQueue(matches, headcopy->name, (headcopy->link)->name);
         headcopy = (headcopy->link)->link;
+    }
+
+    FILE *writing_file2;                           // am creat un fisier pentru a afisa meciurile
+    writing_file2 = fopen("r.txt", "a");
+    if(writing_file2 == NULL)
+    {
+        printf("Fisierul nu a putut fi scris!\n");
+        exit(1);
+    }
+
+    fprintf(writing_file2, "\n--- ROUND NO:1\n");
+    
+    QNode* current;
+    while(current != NULL)
+    {
+        fprintf(writing_file2, "%s - %s", current->team1, current->team2);
     }
 
     return 0;
