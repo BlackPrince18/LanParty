@@ -1,7 +1,17 @@
 #include "liste.h"
 
+void test_file(FILE *ptr)
+{
+    if(ptr == NULL)
+    {
+        printf("Eroare!\n");
+        exit(1);
+    }
+}
+
 LTeam* create_first_node(LTeam* head, char* name, Player* players, int number_of_players)
 {
+    float sum = 0;
     head = (LTeam*)malloc(sizeof(LTeam));
     head->name = (char*)malloc(strlen(name)+1);
     strcpy(head->name, name);
@@ -17,7 +27,9 @@ LTeam* create_first_node(LTeam* head, char* name, Player* players, int number_of
         strcpy(head->players[i].lastName, players[i].lastName);
         
         head->players[i].points = players[i].points;
+        sum += players[i].points;
     }
+    head->score = sum / number_of_players;
 
     head->link = NULL;
 
@@ -26,6 +38,8 @@ LTeam* create_first_node(LTeam* head, char* name, Player* players, int number_of
 
 LTeam* add_at_beginning(LTeam* head, char* name, Player* players, int number_of_players)
 {
+    float sum = 0;
+    
     if(head == NULL)
         head = create_first_node(head, name, players, number_of_players);
     else
@@ -46,7 +60,9 @@ LTeam* add_at_beginning(LTeam* head, char* name, Player* players, int number_of_
             strcpy(temp->players[i].lastName, players[i].lastName);
         
             temp->players[i].points = players[i].points;
+            sum += players[i].points;
         }
+        temp->score = sum / number_of_players;
 
         temp->link = head;
         head = temp;

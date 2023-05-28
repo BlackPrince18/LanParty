@@ -4,15 +4,6 @@
 
 #define MAX_LENGTH_STR 256 
 
-struct Team                                        // am creat structura unei echipe
-{
-    char* name;
-    Player* players;
-    int number_of_players;
-};
-
-typedef struct Team Team;
-
 int main()
 {
     int number_of_teams;
@@ -20,11 +11,7 @@ int main()
     FILE* reading_file;                             // am creat fisierul pentru citire
 
     reading_file = fopen("d.txt", "r");
-    if(reading_file == NULL)
-    {
-        printf("Fisierul nu a putut fi citit!\n");
-        exit(1);
-    }
+    test_file(reading_file);
 
     fscanf(reading_file, "%d", &number_of_teams);  // am citit prima linie pe care erau numarul de echipe
 
@@ -59,6 +46,7 @@ int main()
 
         i++;
     }
+    
 
     LTeam* head, *headcopy;                        // am inceput implementarea listei
     for(i=0; i<number_of_teams; i++)
@@ -82,30 +70,6 @@ int main()
         headcopy = headcopy->link;
     }
 
-    float *scores;                                 // am creat un vector pentru a retine scorul fiecarei echipe in ordinea in care erau trecute in lista
-    scores = (float*)calloc(number_of_teams, sizeof(float));
-    if(scores == NULL)
-    {
-        printf("Eroare!\n");
-        exit(1);
-    }
-
-    i = 0;
-    headcopy = head;
-    
-    while(headcopy != NULL)                        // in acest ciclu am calculat fiecare scor
-    {
-        for(j=0; j<headcopy->number_of_players; j++)
-        {
-            scores[i] += headcopy->players[j].points;
-        }
-        scores[i] /= 2;
-        
-        i++;
-        headcopy = headcopy->link;
-        if(i == number_of_teams) break;
-    }
-
     int eliminate = 0;                             // am creat o variabila ca sa stiu cate echipe trebuie eliminate
     
     if(number_of_teams > 32)                       // am implementat un algoritm pentru a afla numarul echipelor eliminate
@@ -122,33 +86,34 @@ int main()
         else eliminate = number_of_teams - 16;
     }
 
-    float min = scores[0];
-    int min_poz = 1;
+    float min = head->score;
+    int min_poz;
+    int c = 1;
+    headcopy = head;
 
     for(i=0; i<eliminate; i++)
     {
-        for(j=1; j<number_of_teams; j++)             // acest ciclu calculeaza de fiecare data cel mai mic scor, urmand ca echipa sa fie scoasa
-        {
-            if(scores[j] < min) 
+        while(headcopy->link != NULL)
+        {   
+            if(headcopy->score < min)
             {
-                min = scores[j];
-                min_poz = j+1;
+                min = headcopy->score;
+                min_poz = c;
             }
+            c++;
+            headcopy = headcopy->link;
+            
+            if(c == number_of_teams + 1) break;
         }
-
+        
         del_pos(&head, min_poz);
     }
 
-    number_of_teams = number_of_teams - eliminate;  // am actualizat numarul de echipe
-    free(scores);               
+    number_of_teams = number_of_teams - eliminate;  // am actualizat numarul de echipe              
 
     FILE* writing_file1;                             // am creat un fisier pentru a scrie numele echipelor ramase
     writing_file1 = fopen("r.txt", "w");
-    if(writing_file1 == NULL)
-    {
-        printf("Fisierul nu a putut fi scris!\n");
-        exit(1);
-    }
+    test_file(writing_file1);
 
     headcopy = head;
 
@@ -165,27 +130,86 @@ int main()
     matches = create_queue();
     
     headcopy = head;
+    c = 0;
     while(headcopy->link != NULL)
     {
-        enQueue(matches, headcopy->name, (headcopy->link)->name);
+        enQueue(matches, headcopy->name, (headcopy->link)->name, headcopy->score, (headcopy->link)->score);
         headcopy = (headcopy->link)->link;
+        c += 2;
+        if(c == number_of_teams) break;
     }
 
     FILE *writing_file2;                           // am creat un fisier pentru a afisa meciurile
     writing_file2 = fopen("r.txt", "a");
-    if(writing_file2 == NULL)
-    {
-        printf("Fisierul nu a putut fi scris!\n");
-        exit(1);
-    }
+    test_file(writing_file2);
 
-    fprintf(writing_file2, "\n--- ROUND NO:1\n");
-    
+    SNode* losers = NULL;
+    SNode* winners = NULL;
+    SNode* ptr;
     QNode* current;
-    while(current != NULL)
+    current = matches->front;
+    c=1;
+
+    while(number_of_teams != 1)
     {
-        fprintf(writing_file2, "%s - %s", current->team1, current->team2);
+        fprintf(writing_file2, "\n--- ROUND NO:%d\n", c);
+
+        current = matches->front;
+        while(current != NULL)
+        {
+            fprintf(writing_file2, "%s %.2f - %s %.2f\n", current->team1, current->score1, current->team2, current->score2);
+            current = current->link;
+        }
+
+        if(c != 1)
+        {
+            deleteStack(&winners);
+            deleteStack(&losers);
+        }
+        
+        current = matches->front;
+        while(current != NULL)
+        {   
+            if((current->score1 > current->score2) || (current->score1 == current->score2))
+            {
+                push(&winners, current->team1, current->score1);
+                push(&losers, current->team2, current->score2);
+            }
+            else
+            {
+                push(&winners, current->team2, current->score2);
+                push(&losers, current->team1, current->score1);
+            }
+            current = current->link;
+        }
+
+        number_of_teams = number_of_teams / 2;
+        if(number_of_teams != 1) fprintf(writing_file2, "\nWINNERS OF ROUND NO:%d\n", c);
+        else fprintf(writing_file2, "\nWINNER OF ROUND NO:%d\n", c);
+
+        ptr = winners;
+        
+        deleteQueue(matches);
+        
+        if(number_of_teams != 1)
+        {
+            while(ptr != NULL)
+            {
+                fprintf(writing_file2, "%s\t\t\t- %.2f\n%s\t\t\t- %.2f\n", ptr->team, ptr->score, (ptr->link)->team, (ptr->link)->score);
+                ptr->score++;
+                (ptr->link)->score++;
+                enQueue(matches, ptr->team, (ptr->link)->team,  ptr->score, (ptr->link)->score);
+                ptr = (ptr->link)->link;
+            }
+        }
+        else
+        {
+            fprintf(writing_file2, "%s\t\t\t- %.2f\n", ptr->team, ptr->score);
+        }
+
+        c++;
     }
+    
 
     return 0;
 }

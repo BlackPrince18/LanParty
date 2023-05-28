@@ -1,15 +1,17 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 struct Elem1
 {
-    int data;
+    char* team;
+    float score;
     struct Elem1* link;
 };
 
 typedef struct Elem1 SNode;
 
-SNode* push(SNode* Top, int data);
+void push(SNode** Top, char* team, float score);
 int isEmptyS(SNode* Top);
-SNode* pop(SNode* Top);
+void pop(SNode** Top);
 void deleteStack(SNode** Top);
