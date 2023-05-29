@@ -24,3 +24,4 @@ int isEmptyQ(Queue* queue);
 Queue* create_queue();
 void enQueue(Queue* queue, char *team1, char *team2, float score1, float score2);
 void deleteQueue(Queue* q);
+void print_matches(QNode* q, FILE *ptr);

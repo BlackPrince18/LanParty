@@ -40,3 +40,12 @@ void deleteStack(SNode** Top)
         free(temp);
     }
 }
+
+void delete_Stacks(SNode** Top1, SNode** Top2, int n)
+{
+    if(n != 1)
+    {
+        deleteStack(Top1);
+        deleteStack(Top2);
+    }
+}

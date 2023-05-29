@@ -2,6 +2,8 @@
 #include <stdlib.h>
 #include <string.h>
 
+#define MAX_LENGTH_STR 256 
+
 struct Player
 {
     char *firstName;
@@ -46,3 +48,7 @@ LTeam1* add_at_beginning1(LTeam1* head, char* name, Player* players, int number_
 void del_pos (LTeam1 **head, int pos);
 LTeam2* create_first_node2(LTeam2* head, char* name, float score);
 LTeam2* add_at_beginning2(LTeam2* head, char* name, float score);
+void remove_car(char* string);
+int eliminate_team(int n);
+void check_team(Team *v);
+void print_teams(int n, FILE *ptr, LTeam1* headcopy);
