@@ -13,4 +13,4 @@ typedef struct Elem4 TNode;
 
 TNode* createNode(char* data, float number);
 TNode* insertNode(TNode* root, char* data, float number);
-void inorderTraversal(TNode* root);
+void inorderTraversal(TNode* root, FILE* ptr);

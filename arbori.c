@@ -17,13 +17,13 @@ TNode* insertNode(TNode* root, char* data, float number) {
 
     int compareResult = strcmp(data, root->data);
 
-    if(number < root->number)
+    if(number > root->number)
         root->left = insertNode(root->left, data, number);
-    else if(number > root->number)
+    else if(number < root->number)
         root->right = insertNode(root->right, data, number);
     else
     {
-        if(compareResult < 0)
+        if(compareResult > 0)
             root->left = insertNode(root->left, data, number);
         else
             root->right = insertNode(root->right, data, number);
@@ -32,10 +32,15 @@ TNode* insertNode(TNode* root, char* data, float number) {
     return root;
 }
 
-void inorderTraversal(TNode* root) {
+void inorderTraversal(TNode* root, FILE* ptr) {
+    int i;
+    
     if (root != NULL) {
-        inorderTraversal(root->left);
-        printf("%s: %.2f\n", root->data, root->number);
-        inorderTraversal(root->right);
+        inorderTraversal(root->left, ptr);
+        fprintf(ptr, "%s", root->data);
+        for(i=0; i<(34-strlen(root->data)); i++)
+                fprintf(ptr, " ");
+        fprintf(ptr, "%.2f\n", root->number);
+        inorderTraversal(root->right, ptr);
     }
 }

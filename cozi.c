@@ -54,9 +54,16 @@ void deleteQueue(Queue* queue)
 
 void print_matches(QNode* q, FILE *ptr)
 {
+    int i;
     while(q != NULL)
     {
-        fprintf(ptr, "%s - %s\n", q->team1, q->team2);
+        fprintf(ptr, "%s", q->team1, q->score1);
+        for(i=0; i<(33 - strlen(q->team1)); i++)
+            fprintf(ptr, " ");
+        fprintf(ptr, "-");
+        for(i=0; i<(33 - strlen(q->team2)); i++)
+            fprintf(ptr, " ");
+        fprintf(ptr, "%s\n", q->team2, q->score2);
         q = q->link;
     }
 }
