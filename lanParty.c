@@ -9,13 +9,18 @@ int main()
     int number_of_teams;
     int i = 0, j;
     FILE* reading_file;                             // am creat fisierul pentru citire
+    SNode *losers = NULL, *winners = NULL, *ptr;
+    QNode *current;
+    Team* teams;
+    LTeam1 *head, *headcopy;
+    LTeam2 *first_eight, *aux;
+    
 
     reading_file = fopen("d.txt", "r");
     test_file(reading_file);
 
     fscanf(reading_file, "%d", &number_of_teams);  // am citit prima linie pe care erau numarul de echipe
 
-    Team* teams;                                   // am creat un vector de echipe pentru o implementare mai usoara a listei de echipe
     teams = (Team*)malloc(sizeof(Team)*number_of_teams);    
     if(teams == NULL)
     {
@@ -47,11 +52,9 @@ int main()
         i++;
     }
     
-
-    LTeam* head, *headcopy;                        // am inceput implementarea listei
     for(i=0; i<number_of_teams; i++)
     {
-        head = add_at_beginning(head, teams[i].name, teams[i].players, teams[i].number_of_players);
+        head = add_at_beginning1(head, teams[i].name, teams[i].players, teams[i].number_of_players);
     }
 
     free(teams);                                   // dupa ce am completat toata lista, nu am mai avut nevoie de vectorul auxiliar
@@ -93,7 +96,7 @@ int main()
 
     for(i=0; i<eliminate; i++)
     {
-        while(headcopy->link != NULL)
+        while(headcopy != NULL)
         {   
             if(headcopy->score < min)
             {
@@ -102,8 +105,6 @@ int main()
             }
             c++;
             headcopy = headcopy->link;
-            
-            if(c == number_of_teams + 1) break;
         }
         
         del_pos(&head, min_poz);
@@ -143,17 +144,13 @@ int main()
     writing_file2 = fopen("r.txt", "a");
     test_file(writing_file2);
 
-    SNode* losers = NULL;
-    SNode* winners = NULL;
-    SNode* ptr;
-    QNode* current;
     current = matches->front;
     c=1;
 
     while(number_of_teams != 1)
-    {
+    {   
         fprintf(writing_file2, "\n--- ROUND NO:%d\n", c);
-
+        
         current = matches->front;
         while(current != NULL)
         {
@@ -183,6 +180,22 @@ int main()
             current = current->link;
         }
 
+        if(number_of_teams <= 8)
+        {   
+            ptr = losers;
+            while(ptr != NULL)
+            {
+                first_eight = add_at_beginning2(first_eight, ptr->team, ptr->score);
+                ptr = ptr->link; 
+            }
+        }
+
+        if(number_of_teams == 2)
+        {
+            ptr = winners;
+            first_eight = add_at_beginning2(first_eight, ptr->team, ptr->score);
+        }
+
         number_of_teams = number_of_teams / 2;
         if(number_of_teams != 1) fprintf(writing_file2, "\nWINNERS OF ROUND NO:%d\n", c);
         else fprintf(writing_file2, "\nWINNER OF ROUND NO:%d\n", c);
@@ -209,7 +222,6 @@ int main()
 
         c++;
     }
-    
 
     return 0;
 }

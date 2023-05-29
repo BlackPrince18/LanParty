@@ -9,10 +9,10 @@ void test_file(FILE *ptr)
     }
 }
 
-LTeam* create_first_node(LTeam* head, char* name, Player* players, int number_of_players)
+LTeam1* create_first_node1(LTeam1* head, char* name, Player* players, int number_of_players)
 {
     float sum = 0;
-    head = (LTeam*)malloc(sizeof(LTeam));
+    head = (LTeam1*)malloc(sizeof(LTeam1));
     head->name = (char*)malloc(strlen(name)+1);
     strcpy(head->name, name);
     head->number_of_players = number_of_players;
@@ -36,16 +36,16 @@ LTeam* create_first_node(LTeam* head, char* name, Player* players, int number_of
     return head;
 }
 
-LTeam* add_at_beginning(LTeam* head, char* name, Player* players, int number_of_players)
+LTeam1* add_at_beginning1(LTeam1* head, char* name, Player* players, int number_of_players)
 {
     float sum = 0;
     
     if(head == NULL)
-        head = create_first_node(head, name, players, number_of_players);
+        head = create_first_node1(head, name, players, number_of_players);
     else
     {
-        LTeam* temp;
-        temp = (LTeam*)malloc(sizeof(LTeam));
+        LTeam1* temp;
+        temp = (LTeam1*)malloc(sizeof(LTeam1));
         temp->name = (char*)malloc(strlen(name)+1);
         strcpy(temp->name, name);
         temp->number_of_players = number_of_players;
@@ -71,9 +71,9 @@ LTeam* add_at_beginning(LTeam* head, char* name, Player* players, int number_of_
     }
 }
 
-void del_pos (LTeam **head, int pos)
+void del_pos (LTeam1 **head, int pos)
 {
-    LTeam *p, *c;
+    LTeam1 *p, *c;
     p = *head;
     c = *head;
 
@@ -98,5 +98,33 @@ void del_pos (LTeam **head, int pos)
         p->link = c->link;
         free(c);
         c = NULL;
+    }
+}
+
+LTeam2* create_first_node2(LTeam2* head, char* name, float score)
+{
+    head = (LTeam2*)malloc(sizeof(LTeam2));
+    head->name = (char*)malloc(strlen(name)+1);
+    strcpy(head->name, name);
+    head->score = score;
+    head->link = NULL;
+
+    return head;
+}
+
+LTeam2* add_at_beginning2(LTeam2* head, char* name, float score)
+{
+    if(head == NULL) create_first_node2(head, name, score);
+    else
+    {
+        LTeam2* temp;
+        temp = (LTeam2*)malloc(sizeof(LTeam2));
+        temp->name = (char*) malloc(strlen(name)+1);
+        strcpy(temp->name, name);
+        temp->score = score;
+        temp->link = head;
+        head = temp;
+
+        return head;
     }
 }
